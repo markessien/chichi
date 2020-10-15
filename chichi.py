@@ -7,6 +7,7 @@ import random
 import asyncio
 import logging
 import argparse
+import threading
 
 from typing import List
 from pathlib import Path
@@ -34,6 +35,32 @@ class Settings():
 
 settings = Settings()
 
+def read_from_file(selected_file):
+
+    # Get the filesize, so we can read a random offset
+    file_size = Path(selected_file).stat().st_size
+
+    # We will be reading 2 megabytes from the file
+    two_mb = 2000000
+
+    # Make sure file is greater than 2mb so we don't read more than we can chew
+    if file_size > two_mb:
+
+        # Get a random start offset
+        start_offset = random.randint(0, file_size - two_mb)
+
+        try:
+            with open(selected_file, 'rb') as f:
+                f.seek(start_offset)
+                f.read(two_mb)
+
+                now = datetime.now()
+                current_time = now.strftime("%H:%M:%S")
+
+                print(current_time + " - Read " + selected_file[0:5] + "..." + selected_file[-10:])  # + data.decode("ascii", errors="ignore")[1:20]) <-- last bit can be used to check bytes
+        except:
+            print("File " + selected_file[-10:] + " is locked")
+
 def xorinox_drivekeepalive():
     """
         Keeps external drives up by using the algorithm described
@@ -57,29 +84,8 @@ def xorinox_drivekeepalive():
             # And then select that file from the results
             selected_file = os.path.join(folder, file_list[file_nmbr])
 
-            # Get the filesize, so we can read a random offset
-            file_size = Path(selected_file).stat().st_size
-
-            # We will be reading 2 megabytes from the file
-            two_mb = 2000000
-
-            # Make sure file is greater than 2mb so we don't read more than we can chew
-            if file_size > two_mb:
-
-                # Get a random start offset
-                start_offset = random.randint(0, file_size - two_mb)
-
-                try:
-                    with open(selected_file, 'rb') as f:
-                        f.seek(start_offset)
-                        f.read(two_mb)
-
-                        now = datetime.now()
-                        current_time = now.strftime("%H:%M:%S")
-
-                        print(current_time + " - Read " + selected_file[0:5] + "..." + selected_file[-10:])  # + data.decode("ascii", errors="ignore")[1:20]) <-- last bit can be used to check bytes
-                except:
-                    print("File " + selected_file[-10:] + " is locked")
+            x = threading.Thread(target=read_from_file, args=(selected_file,))
+            x.start()
 
         time.sleep(3)
 
