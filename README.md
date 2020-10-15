@@ -6,6 +6,6 @@ Usage:
 # To add a new folder
 python chichi.py -d <folder>
 
-# To start spinning a drive
+# To start spinning all drives
 python chichi.py
 
