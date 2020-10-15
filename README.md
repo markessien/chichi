@@ -11,6 +11,8 @@ You can also edit the settings.json file and add all folders there directly. Thi
 
 {"directories": ["f:\\ChiaFarm\\", "g:\\ChiaFarm\\", "h:\\ChiaFarm\\", "i:\\ChiaFarm\\"]}
 
+Use double backslashes, not single.
+
 # To start spinning all drives
 python chichi.py
 
