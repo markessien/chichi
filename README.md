@@ -1,2 +1,11 @@
 # chichi
-Helper Utilities
+A small tool to keep external USB drives spinning. Useful for space farming.
+
+Usage:
+
+# To add a new folder
+python chichi.py -d <folder>
+
+# To start spinning a drive
+python chichi.py
+
