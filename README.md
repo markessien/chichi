@@ -5,6 +5,7 @@ Usage:
 
 # To add a new folder
 python chichi.py -d "folder/path"
+
 python chichi.py -d "E:\ChiaFarm"
 
 You can also edit the settings.json file and add all folders there directly. This is how it looks like:
