@@ -31,6 +31,8 @@ try:
     Himage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
     draw.text((10, 0), 'hello world', font = font24, fill = 0)
+
+    """
     draw.text((10, 20), '7.5inch e-Paper', font = font24, fill = 0)
     draw.text((150, 0), u'微雪电子', font = font24, fill = 0)    
     draw.line((20, 50, 70, 100), fill = 0)
@@ -41,9 +43,11 @@ try:
     draw.arc((140, 50, 190, 100), 0, 360, fill = 0)
     draw.rectangle((80, 50, 130, 100), fill = 0)
     draw.chord((200, 50, 250, 100), 0, 360, fill = 0)
+
+    """
     epd.display(epd.getbuffer(Himage))
     time.sleep(2)
-
+    """
     # Drawing on the Vertical image
     logging.info("2.Drawing on the Vertical image...")
     Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
@@ -81,7 +85,10 @@ try:
     logging.info("Goto Sleep...")
     epd.sleep()
     epd.Dev_exit()
+    """
     
+    # epd.Dev_exit()
+
 except IOError as e:
     logging.info(e)
     
