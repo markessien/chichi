@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import subprocess
+
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib/pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):
@@ -14,6 +16,9 @@ from PIL import Image,ImageDraw,ImageFont
 import traceback
 
 logging.basicConfig(level=logging.DEBUG)
+
+cmd = "hostname -I | cut -d\' \' -f1"
+IP = subprocess.check_output(cmd, shell = True )
 
 try:
     logging.info("epd7in5_V2 Demo")
@@ -30,7 +35,7 @@ try:
     logging.info("1.Drawing on the Horizontal image...")
     Himage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
-    draw.text((100, 100), 'hello world', font = font24, fill = 0)
+    draw.text((50, 100), 'IP: ' + str(IP), font = font24, fill = 0)
 
     """
     draw.text((10, 20), '7.5inch e-Paper', font = font24, fill = 0)
