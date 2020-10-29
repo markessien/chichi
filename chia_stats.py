@@ -11,7 +11,14 @@ class ChiaStats:
     loaded_plot_count: int = 0
     loaded_plot_tb: float = 0
     heights: List[int] = field(default_factory=list)
+    proof_times: List[float] = field(default_factory=list)
     connected: bool = False
+
+    def avg_proof_time(self):
+        total = 0.0
+        for proof_time in self.proof_times:
+            total = total + proof_time
+        return round(total / len(self.proof_times), 2)
 
 def get_netspace():
     res = str(subprocess.check_output(["/home/ubuntu/chia-blockchain/venv/bin/chia netspace -d 48"], shell = True))
@@ -55,13 +62,23 @@ def get_connected_status(c):
 
 def parse_logfile(c):
 
+    print("starting parse")
     with open("/home/ubuntu/.chia/beta-1.0b15/log/debug.log") as fp:
         for cnt, line in enumerate(fp):
+            # print(line)
             p = line.find("Loaded a total of ")
             if p >= 0:
                 c.loaded_plot_count = line[p + 18 : line.find(' ', p + 19)]
                 c.loaded_plot_tb = line[line.find('size ') + 5 : line.find(' TiB')]
-                break
+
+            p = line.find("were eligible for farming")
+            if p >= 0:
+                proof_time = line[line.find('Time: ', p) + 6: line.find('. Total', p)]
+                # print("Proof Time: " + proof_time)
+                c.proof_times.append(float(proof_time))
+
+                if len(c.proof_times) > 20:
+                    c.proof_times.pop(0)
 
 def get_chia_stats():
     c = ChiaStats()

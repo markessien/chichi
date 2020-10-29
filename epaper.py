@@ -51,6 +51,8 @@ def epaper_update():
         draw.text((50, 20), 'Net Space: ' + str(c.netspace), font = font24, fill = 0)
         draw.text((50, 20 + (line_gap_big*2)), 'My Space: ' + str(round(float(c.loaded_plot_tb), 2)) + "TiB", font = font24, fill = 0)
         draw.text((50, 20 + (line_gap_big*3)), 'Plots Loaded: ' + str(c.loaded_plot_count), font = font24, fill = 0)
+        draw.text((50, 20 + (line_gap_big*4)), 'Avg Proof Lookup Time: ' + str(c.avg_proof_time()) + "s", font = font24, fill = 0)
+        
 
         # draw.text((50, 200), 'Last win: ', font = font24, fill = 0)
         # draw.text((50, 230), 'Balance: ', font = font24, fill = 0)
