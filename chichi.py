@@ -1,5 +1,6 @@
 import os
 import sys
+import lcd
 import time
 import glob
 import json
@@ -12,6 +13,8 @@ import threading
 from typing import List
 from pathlib import Path
 from datetime import datetime
+from epaper import epaper_update
+from chia_stats import get_chia_stats
 from dataclasses import dataclass, field
 
 """
@@ -20,7 +23,7 @@ DRIVE KEEP ALIVE FOR CHIA FARMING
 
 # Logging
 log = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 @dataclass
 class Settings():
@@ -137,4 +140,21 @@ if __name__ == '__main__':
     if args.dir:
         add_directory(args.dir)
     else:
-        xorinox_drivekeepalive()
+        # xorinox_drivekeepalive()
+
+        lcd = lcd.LCDScreen()
+        lcd.init_lcd()
+
+        timer = 0
+        while True:
+            c = get_chia_stats()
+
+            # if c.connected:
+            lcd.print_on_lcd("CONNECTED\n" + str(c.heights))
+
+            if timer % 100 == 0:
+                epaper_update()
+
+            time.sleep(5)
+            timer = timer + 5
+

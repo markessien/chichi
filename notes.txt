@@ -4,9 +4,3 @@ For mini-display:
 - Avg response time of your disks
 - Max response time in last hour
 - Frequency of 'Eligible'
-
-
-On slow screen:
-
-- Total Gigs Loaded + number of files
-- 
